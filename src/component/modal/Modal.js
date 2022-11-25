@@ -1,23 +1,25 @@
 import React,{useState} from 'react'
 import './modal.scss'
 
-function Modal() {
+function Modal({setCityData}) {
 
     const [modal,setModal]=useState(true);
     const [input,setInput] =useState({
-        city:'',
-        country:''
+        city:"",
+        country:""
     });
 
     const toggleModal =()=>{
         setModal(!modal);
     }
 
-    const handleSumit = () =>{
-        
-        setInput({...input})
-        console.log(input);
-        toggleModal()
+    const onChange=(e)=> {
+        setInput({...input,[e.target.name]:e.target.value})
+        setCityData({[e.target.name]:e.target.value})
+    }
+    const handleSumit = () =>{     
+        console.log({});        
+        toggleModal();
     }
 
   return (
@@ -28,8 +30,8 @@ function Modal() {
             <div className='modal-content'>
                 <h2>Hello World</h2>
                 <div className="input-container">
-                    <input className='city-input' type='text' value={input.city} placeholder='Enter City Name'/>
-                    <input className='country-input' type='text' value={input.country} placeholder='Enter Country Name'/>
+                    <input name="city" className='city-input' type='text' value={input.city} placeholder='Enter City Name' onChange={onChange}/>
+                    <input name="country" className='country-input' type='text' value={input.country} placeholder='Enter Country Name'onChange={onChange}/>
                 </div>            
                 <button onClick={handleSumit} className="change-btn">Change Location</button>            
             </div>

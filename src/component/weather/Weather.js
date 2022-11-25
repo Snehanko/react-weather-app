@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import './weather.scss';
+import Modal from '../modal/Modal';
 
 function Weather() {
 
@@ -11,7 +12,8 @@ function Weather() {
 
 
   const [weatherData,setWeatherData]=useState({});
-  const [cityData,setCityDate]=useState({
+
+  const [cityData,setCityData]=useState({ //parent State needed to change according to child state
     cityName:'Durgapur',
     country:'India'
   })
@@ -31,11 +33,14 @@ function Weather() {
   //const iconURL=`https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
 
   return (
-    <div className='container'>
+    <>
+      <Modal porps={setCityData}/> 
+      {console.log(cityData)}
+      <div className='container'>
 
         <div>
-
         </div>
+
         <div>
             <h1>CityName,CountryName</h1>
             <h2>Weather</h2>
@@ -46,11 +51,13 @@ function Weather() {
             <h3>Pressure</h3>
             <h3>Feels Like</h3>
             <h3>WindSpeed</h3>
+          </div>
         </div>
-      </div>
       
       <button>Change Location</button>
     </div>
+    </>
+    
   )
 }
 
