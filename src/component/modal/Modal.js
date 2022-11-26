@@ -4,7 +4,8 @@ import './modal.scss'
 function Modal({setCityData}) {
 
     const [modal,setModal]=useState(true);
-    const [input,setInput] =useState({
+
+    const [input,setInput] =useState({  //child State
         city:"",
         country:""
     });
@@ -15,10 +16,10 @@ function Modal({setCityData}) {
 
     const onChange=(e)=> {
         setInput({...input,[e.target.name]:e.target.value})
-        setCityData({[e.target.name]:e.target.value})
+        
     }
-    const handleSumit = () =>{     
-        console.log({});        
+    const handleSumit = () =>{ 
+        setCityData(input);            
         toggleModal();
     }
 

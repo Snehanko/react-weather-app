@@ -5,42 +5,47 @@ import Modal from '../modal/Modal';
 
 function Weather() {
 
-  const APIkey= '895b84687fcddc3e0be9289362976c63';
-  //https://api.openweathermap.org/data/2.5/weather?q=${this.city},${this.state}&units=metric&appid=${this.apiKey}
-  const URL=`https://api.openweathermap.org/data/2.5/weather?q=Durgapur,India&units=metric&appid=${APIkey}`;
-  
-
-
   const [weatherData,setWeatherData]=useState({});
-
-  const [cityData,setCityData]=useState({ //parent State needed to change according to child state
-    cityName:'Durgapur',
-    country:'India'
+  const [modal,setModal]=useState(false);
+  const [cityData,setCityData]=useState({ 
+    city:'',
+    country:''
   })
 
-  // useEffect(()=>{
-  //     getApiData()
-  // },[]);
+  
+  const APIkey= '895b84687fcddc3e0be9289362976c63';
+  const URL=`https://api.openweathermap.org/data/2.5/weather?q=${cityData.city},${cityData.country}&units=metric&appid=${APIkey}`;
+  
+  const getWeatherData = async()=>{
+      await axios.get(URL).then((response)=>{
+      const data = response.data;
+          
+      return data;
+    }).catch(err=>{
+        alert(err);
+    })
 
-  // const getApiData = () =>{
-  //   axios.get(URL).then((response)=>{
-  //       setWeatherData(response.data);   
-  //       console.log(weatherData.weather[0].icon) 
-  //     })
-  //     .catch((err)=>{alert(err)});
-  // }
+  }
+  
+  const handleChange = async ()=>{
+    setModal(true);
+    const data=await getWeatherData();
+    setWeatherData(data);
+    console.log(weatherData);
+  }
 
+  useEffect(()=>{
+    handleChange();
+    setModal(!modal);
+  },[])
   //const iconURL=`https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
 
   return (
     <>
-      <Modal porps={setCityData}/> 
-      {console.log(cityData)}
+    {
+      modal===true&&<Modal setCityData={setCityData}/>
+    }
       <div className='container'>
-
-        <div>
-        </div>
-
         <div>
             <h1>CityName,CountryName</h1>
             <h2>Weather</h2>
@@ -54,7 +59,7 @@ function Weather() {
           </div>
         </div>
       
-      <button>Change Location</button>
+      <button onClick={handleChange}>Change Location</button>
     </div>
     </>
     
