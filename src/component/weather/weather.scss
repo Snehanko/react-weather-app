@@ -1,26 +1,125 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px black solid;
-    border-radius: 10px;
-    background-color: aqua;
-    width: 500px;
+body{
+    background-color: #2d2c2c;
+    font-family: 'Montserrat', sans-serif;
 
-    .detail-container{
+    .container{
+        
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border: 1px black solid;
-        background-color: white;
-        width: 200px;
-        border-radius: 20px;
+        margin: 50px 0;
 
+        .search-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin:10px;
+
+            .input-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 2px;
+
+                    input{
+                        border-radius: 10px;
+                        margin:4px 0;
+                        width:18vw;
+                        height:3vh;
+                    }
+            }
+
+            .search-btn{
+                background-color: whitesmoke;
+                border-radius: 10px;
+                border: 1px solid #2d2c2c;
+                display: inline-block;
+                cursor: pointer;
+                color: black;
+                font-family: Arial;
+                font-size: 12px;
+                padding: 10px 0;
+                width: 5vw;
+                height: 6vh;
+            }
+
+            .search-btn:hover {
+                background-color: black;
+                color: white;
+            }
+
+            .search-btn:active {
+                position: relative;
+                top: 1px;
+            }
+            
+        }
+        
+
+        .weather-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+            color: white;
+            border-radius: 20px;
+            box-shadow: 2px 2px 2px #4eede3;
+            padding: 5px;
+            width: 30vw;
+            height: 65vh;
+
+            .city-container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding-top: 40px;
+                h1{
+                    margin: 0;
+                }
+                h3{
+                    margin: 5px 0;
+                    font-weight:100;
+                }
+            }
+
+            .temp-container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                h1{
+                    font-weight: bold;
+                    font-size: 70px;
+                    margin: 4px;
+                }
+
+                h2{
+                    font-weight: 400;
+                    font-size: 20px;
+                }
+            }
+
+            .info-container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 10px;
+
+                h2 {
+                        font-weight: 400;
+                        font-size: 18px;
+                        margin: 2px;
+                }
+            }
+
+        }
     }
 
-    button{
-        margin: 2rem;
-    }
 }

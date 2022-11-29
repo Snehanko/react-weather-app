@@ -1,68 +1,64 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import './weather.scss';
-import Modal from '../modal/Modal';
 
 function Weather() {
 
-  const [weatherData,setWeatherData]=useState({});
-  const [modal,setModal]=useState(false);
+  const [weatherData,setWeatherData]=useState();
+
   const [cityData,setCityData]=useState({ 
-    city:'',
-    country:''
+    city:'Durgapur',
+    country:'India'
   })
 
-  
   const APIkey= '895b84687fcddc3e0be9289362976c63';
   const URL=`https://api.openweathermap.org/data/2.5/weather?q=${cityData.city},${cityData.country}&units=metric&appid=${APIkey}`;
-  
-  const getWeatherData = async()=>{
-      await axios.get(URL).then((response)=>{
-      const data = response.data;
-          
-      return data;
-    }).catch(err=>{
-        alert(err);
-    })
 
+  const handleChange=(e)=>{
+      setCityData({...cityData,[e.target.name]:e.target.value});
   }
-  
-  const handleChange = async ()=>{
-    setModal(true);
-    const data=await getWeatherData();
-    setWeatherData(data);
-    console.log(weatherData);
+
+  const handleClick=()=>{
+      axios.get(URL)
+      .then((response)=>{
+        setWeatherData(response.data);
+        console.log(weatherData);
+      })
+      .catch((err)=>console.log(err));
   }
 
   useEffect(()=>{
-    handleChange();
-    setModal(!modal);
+      
+      handleClick();
   },[])
+  
   //const iconURL=`https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
 
   return (
-    <>
-    {
-      modal===true&&<Modal setCityData={setCityData}/>
-    }
       <div className='container'>
-        <div>
-            <h1>CityName,CountryName</h1>
-            <h2>Weather</h2>
-            <h2>Tempearture</h2>      
-            {/* <img src={iconURL}/> */}
-            <div className='detail-container'>
-            <h3>Humidity</h3>
-            <h3>Pressure</h3>
-            <h3>Feels Like</h3>
-            <h3>WindSpeed</h3>
-          </div>
+        <div className='search-container'>
+              <div className="input-container">
+                <input name="city" className='city-input' type='text' placeholder='Enter City Name' onChange={handleChange} />
+                <input name="country" className='country-input' type='text' placeholder='Enter Country Name'onChange={handleChange}/>
+              </div>            
+              <button className="btn search-btn" onClick={handleClick}>Search</button>
         </div>
-      
-      <button onClick={handleChange}>Change Location</button>
-    </div>
-    </>
-    
+        <div className='weather-container'>
+            <div className='city-container'>
+              <h1>London, GB</h1>
+              <h3>Thrusday, March 21, 2021</h3>
+            </div>
+            <div className='temp-container'>
+              <h1>5'C</h1>
+              <div>Image/icon</div>
+              <h2>Detailed Weather</h2>
+            </div>
+            <div className='info-container'>
+              <h2>Humidity: 87%</h2>
+              <h2>Pressure: 1020hPa</h2>
+            </div>
+        </div>     
+      </div>   
   )
 }
 
