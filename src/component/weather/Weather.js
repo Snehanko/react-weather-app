@@ -6,12 +6,14 @@ const APIkey= '895b84687fcddc3e0be9289362976c63';
 
 function Weather() {
 
-  const [weatherData,setWeatherData]=useState();
+  const [weatherData,setWeatherData]=useState({});
 
   const [cityData,setCityData]=useState({ 
     city:'Durgapur',
     country:'India'
   })
+
+  const [date,setDate] =useState('')
   
   const URL=`https://api.openweathermap.org/data/2.5/weather?q=${cityData.city},${cityData.country}&units=metric&appid=${APIkey}`;
 
@@ -22,15 +24,20 @@ function Weather() {
   const handleClick=()=>{
         axios.get(URL)
         .then((response)=>{
-          setWeatherData(response.data);    
-          
+          setWeatherData(response.data);   
         })
         .catch((err)=>
         console.log(err))
     }
 
-  useEffect(()=>{    
+  const getDate=()=>{
+      var today = new Date();      
+      setDate(`${today.getDate()}-${(today.getMonth() + 1)}-${today.getFullYear()}`);    
+  }
+
+  useEffect(()=>{  
     handleClick();
+    getDate();
   },[])
 
   
@@ -38,6 +45,7 @@ function Weather() {
   //const iconURL=`https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
 
   return ( 
+            
             <div className='container'>
               <div className='search-container'>
                     <div className="input-container">
@@ -48,20 +56,25 @@ function Weather() {
               </div>
               <div className='weather-container'>
                   <div className='city-container'>
-                    <h1>{weatherData.name},{weatherData.sys.country}</h1>
-                    <h3>Thrusday, March 21, 2021</h3>
+                    {weatherData.main?<h1>{weatherData.name},{weatherData.sys.country}</h1>:null}
+                    <h2>{date}</h2>
                   </div>
                   <div className='temp-container'>
-                    <h1>{weatherData.main.temp}'C</h1>
-                    {/* <img src={iconURL}/> */}
+                     {weatherData.main ? <h2>{Math.round((weatherData.main.temp)*10)/10} ℃</h2>:null}
+                      {weatherData.weather?
+                      <img 
+                          src={`https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`} 
+                          alt={weatherData.weather[0].description}
+                          />:
+                      null}
                     <h2>Detailed Weather</h2>
                   </div>
                   <div className='info-container'>
-                    <h2>Humidity: 87%</h2>
-                    <h2>Pressure: 1020hPa</h2>
+                    {weatherData.main ? <h2>Humidity: {weatherData.main.humidity} %</h2>:null}
+                    {weatherData.main ? <h2>Pressure: {weatherData.main.pressure}</h2>:null}
                   </div>
               </div>  
-            </div>      
+            </div>   
   )
 }
 
